@@ -116,10 +116,20 @@ export default function JobDetails({ job, similarJobs }) {
           content={job.shortDescription || `Apply for ${job.title} position at ${job.companyName}. Location: ${job.location}`}
         />
         <link rel="canonical" href={canonicalUrl} />
-        <meta property="og:title" content={`${job.title} | ${job.companyName}`} />
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content={`${job.title} at ${job.companyName} | ApplyThisJobs`} />
         <meta property="og:description" content={job.shortDescription} />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:type" content="article" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="ApplyThisJobs" />
+        {job.companyLogo && <meta property="og:image" content={job.companyLogo} />}
+        {job.companyLogo && <meta property="og:image:alt" content={`${job.companyName} logo`} />}
+
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${job.title} at ${job.companyName} | ApplyThisJobs`} />
+        <meta name="twitter:description" content={job.shortDescription} />
+        {job.companyLogo && <meta name="twitter:image" content={job.companyLogo} />}
 
         {/* Schema.org JobPosting JSON-LD */}
         <script
