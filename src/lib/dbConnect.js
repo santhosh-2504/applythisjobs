@@ -38,7 +38,7 @@ async function dbConnect() {
         throw err;
       });
   }
-
+  
   try {
     cached.conn = await cached.promise;
     global.mongoose = cached;
