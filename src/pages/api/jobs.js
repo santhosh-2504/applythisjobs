@@ -4,7 +4,7 @@ import { fetchJobsData } from '@/lib/getJobs';
 
 export default async function handler(req, res) {
   try {
-    const { city, niche, q, page, limit } = req.query;
+    const { city, niche, q, page, limit, includeClosed } = req.query;
 
     // Fetch formatted jobs
     const data = await fetchJobsData({
@@ -12,8 +12,10 @@ export default async function handler(req, res) {
       niche: niche || 'All',
       searchKeyword: q || '',
       page: parseInt(page || '1', 10),
-      limit: parseInt(limit || '10', 10)
+      limit: parseInt(limit || '10', 10),
+      includeClosed: includeClosed === 'true'
     });
+
 
     return res.status(200).json({
       success: true,

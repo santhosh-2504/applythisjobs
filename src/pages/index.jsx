@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import {
   FaSearch,
   FaMapMarkerAlt,
@@ -15,6 +16,9 @@ import {
   FaChevronRight
 } from 'react-icons/fa';
 import { fetchJobsData } from '@/lib/getJobs';
+
+const AdminBar = dynamic(() => import('@/components/AdminBar'), { ssr: false });
+const EditJobModal = dynamic(() => import('@/components/EditJobModal'), { ssr: false });
 
 export async function getServerSideProps(context) {
   const { query } = context;
@@ -39,9 +43,9 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home({
-  jobs,
-  totalJobs,
-  totalPages,
+  jobs: initialJobs,
+  totalJobs: initialTotalJobs,
+  totalPages: initialTotalPages,
   currentPage,
   initialSearchKeyword,
   initialCity,
@@ -50,9 +54,86 @@ export default function Home({
   const router = useRouter();
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
+  const [jobs, setJobs] = useState(initialJobs);
+  const [totalJobs, setTotalJobs] = useState(initialTotalJobs);
+  const [totalPages, setTotalPages] = useState(initialTotalPages);
+
   const [searchInput, setSearchInput] = useState(initialSearchKeyword);
   const [selectedCity, setSelectedCity] = useState(initialCity);
   const [selectedNiche, setSelectedNiche] = useState(initialNiche);
+
+  // Admin Mode States
+  const [isAdminActive, setIsAdminActive] = useState(false);
+  const [showClosed, setShowClosed] = useState(false);
+  const [editingJob, setEditingJob] = useState(null);
+
+  useEffect(() => {
+    setJobs(initialJobs);
+    setTotalJobs(initialTotalJobs);
+    setTotalPages(initialTotalPages);
+  }, [initialJobs, initialTotalJobs, initialTotalPages]);
+
+  useEffect(() => {
+    const adminSecret = localStorage.getItem('admin_secret');
+    if (adminSecret) {
+      setIsAdminActive(true);
+    }
+  }, []);
+
+  const handleLockAdmin = () => {
+    localStorage.removeItem('admin_secret');
+    setIsAdminActive(false);
+    setShowClosed(false);
+  };
+
+  // Refetch jobs if closed filter toggled
+  useEffect(() => {
+    if (!isAdminActive) return;
+    const fetchAdminJobs = async () => {
+      try {
+        const queryParams = new URLSearchParams({
+          q: searchInput || '',
+          city: selectedCity !== 'All' ? selectedCity : '',
+          niche: selectedNiche !== 'All' ? selectedNiche : '',
+          page: currentPage.toString(),
+          includeClosed: showClosed ? 'true' : 'false'
+        });
+        const res = await fetch(`/api/jobs?${queryParams.toString()}`);
+        const data = await res.json();
+        if (data.success) {
+          setJobs(data.jobs);
+          setTotalJobs(data.totalJobs);
+          setTotalPages(data.totalPages);
+        }
+      } catch (err) {
+        console.error('Admin refetch error:', err);
+      }
+    };
+    fetchAdminJobs();
+  }, [showClosed]);
+
+  const handleToggleClosed = async (jobId, currentClosed) => {
+    const secret = localStorage.getItem('admin_secret');
+    if (!secret) return;
+    try {
+      const res = await fetch(`/api/admin/jobs/${jobId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-secret': secret
+        },
+        body: JSON.stringify({ isClosed: !currentClosed })
+      });
+      if (res.ok) {
+        setJobs((prev) =>
+          prev.map((j) => (j._id === jobId ? { ...j, isClosed: !currentClosed } : j))
+        );
+      }
+    } catch (err) {
+      console.error('Toggle closed error:', err);
+    }
+  };
+
 
   // Debounced auto-search effect (400ms)
   useEffect(() => {
@@ -214,7 +295,16 @@ export default function Home({
         />
       </Head>
 
+      {isAdminActive && (
+        <AdminBar
+          showClosed={showClosed}
+          setShowClosed={setShowClosed}
+          onLockAdmin={handleLockAdmin}
+        />
+      )}
+
       <div className="bg-gray-50 dark:bg-gray-900 pb-16">
+
         {/* Hero & Search Header */}
         <section className="bg-gradient-to-b from-blue-900 via-indigo-900 to-gray-900 text-white pt-10 pb-8 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center space-y-4">
@@ -385,18 +475,47 @@ export default function Home({
                   </div>
 
                   {/* Card Footer */}
-                  <div className="pt-3 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between mt-2">
-                    <span className="text-[11px] text-gray-400 flex items-center">
-                      <FaCalendarAlt className="mr-1 text-gray-400" />
-                      {formatDate(job.createdAt)}
-                    </span>
+                  <div className="pt-3 border-t border-gray-100 dark:border-gray-700 flex flex-col gap-2 mt-2">
+                    {isAdminActive && (
+                      <div className="flex items-center justify-between bg-purple-950/40 dark:bg-purple-900/20 p-2 rounded-xl border border-purple-500/30 text-xs">
+                        <span className="font-semibold text-purple-300 text-[11px] flex items-center gap-1">
+                          🛡️ Admin
+                          {job.isClosed && <span className="text-rose-400 font-bold ml-1">(Closed)</span>}
+                        </span>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            onClick={() => setEditingJob(job)}
+                            className="px-2 py-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-[11px] transition shadow-sm"
+                          >
+                            ✏️ Edit
+                          </button>
+                          <button
+                            onClick={() => handleToggleClosed(job._id, job.isClosed)}
+                            className={`px-2 py-1 font-semibold rounded text-[11px] transition border ${
+                              job.isClosed
+                                ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/30"
+                                : "bg-rose-500/20 text-rose-300 border-rose-500/30 hover:bg-rose-500/30"
+                            }`}
+                          >
+                            {job.isClosed ? "🟢 Re-open" : "🔴 Close"}
+                          </button>
+                        </div>
+                      </div>
+                    )}
 
-                    <Link
-                      href={`/jobs/${job.slug}`}
-                      className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors"
-                    >
-                      View Details
-                    </Link>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] text-gray-400 flex items-center">
+                        <FaCalendarAlt className="mr-1 text-gray-400" />
+                        {formatDate(job.createdAt)}
+                      </span>
+
+                      <Link
+                        href={`/jobs/${job.slug}`}
+                        className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors"
+                      >
+                        View Details
+                      </Link>
+                    </div>
                   </div>
                 </article>
               ))}
@@ -467,7 +586,22 @@ export default function Home({
             </div>
           )}
         </section>
+
+        {/* Edit Modal Overlay when Admin clicks Edit */}
+        {editingJob && (
+          <EditJobModal
+            job={editingJob}
+            onClose={() => setEditingJob(null)}
+            onSaveSuccess={(updatedJob) => {
+              setJobs((prev) =>
+                prev.map((j) => (j._id === updatedJob._id ? updatedJob : j))
+              );
+              setEditingJob(null);
+            }}
+          />
+        )}
       </div>
     </>
   );
 }
+

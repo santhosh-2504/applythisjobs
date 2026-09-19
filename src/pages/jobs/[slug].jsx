@@ -16,8 +16,13 @@ import {
   FaExclamationTriangle,
   FaBan
 } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { fetchJobBySlug, fetchSimilarJobs } from '@/lib/getJobs';
 import { isJobClosedOrExpired } from '@/lib/jobUtils';
+
+const AdminBar = dynamic(() => import('@/components/AdminBar'), { ssr: false });
+const EditJobModal = dynamic(() => import('@/components/EditJobModal'), { ssr: false });
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
@@ -40,12 +45,53 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function JobDetails({ job, similarJobs }) {
+export default function JobDetails({ job: initialJob, similarJobs }) {
   const router = useRouter();
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-  const canonicalUrl = `${siteUrl}/jobs/${job.slug}`;
 
+  const [job, setJob] = useState(initialJob);
+  const [isAdminActive, setIsAdminActive] = useState(false);
+  const [editingJob, setEditingJob] = useState(null);
+
+  useEffect(() => {
+    setJob(initialJob);
+  }, [initialJob]);
+
+  useEffect(() => {
+    const secret = localStorage.getItem('admin_secret');
+    if (secret) {
+      setIsAdminActive(true);
+    }
+  }, []);
+
+  const handleLockAdmin = () => {
+    localStorage.removeItem('admin_secret');
+    setIsAdminActive(false);
+  };
+
+  const handleToggleClosed = async () => {
+    const secret = localStorage.getItem('admin_secret');
+    if (!secret) return;
+    try {
+      const res = await fetch(`/api/admin/jobs/${job._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-secret': secret
+        },
+        body: JSON.stringify({ isClosed: !job.isClosed })
+      });
+      if (res.ok) {
+        setJob((prev) => ({ ...prev, isClosed: !prev.isClosed }));
+      }
+    } catch (err) {
+      console.error('Toggle closed error:', err);
+    }
+  };
+
+  const canonicalUrl = `${siteUrl}/jobs/${job.slug}`;
   const isClosed = isJobClosedOrExpired(job);
+
 
   const safeIsoDate = (dateVal) => {
     if (!dateVal) return undefined;
@@ -138,6 +184,10 @@ export default function JobDetails({ job, similarJobs }) {
         />
       </Head>
 
+      {isAdminActive && (
+        <AdminBar onLockAdmin={handleLockAdmin} />
+      )}
+
       <div className="bg-gray-50 dark:bg-gray-900 py-10 px-4 sm:px-6 lg:px-8 min-h-screen">
         <div className="max-w-5xl mx-auto space-y-6">
           {/* Back Button */}
@@ -161,7 +211,35 @@ export default function JobDetails({ job, similarJobs }) {
 
           {/* Main Hero Header Card */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl border border-gray-100 dark:border-gray-700">
+            {isAdminActive && (
+              <div className="mb-6 p-3 bg-purple-950/40 border border-purple-500/30 rounded-xl flex items-center justify-between text-xs">
+                <span className="font-semibold text-purple-300 flex items-center gap-1.5">
+                  🛡️ Admin Inline Actions
+                  {job.isClosed && <span className="text-rose-400 font-bold ml-1">(Closed)</span>}
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setEditingJob(job)}
+                    className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition shadow"
+                  >
+                    ✏️ Edit All 22 Fields
+                  </button>
+                  <button
+                    onClick={handleToggleClosed}
+                    className={`px-3 py-1.5 font-semibold rounded-lg transition border ${
+                      job.isClosed
+                        ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/30"
+                        : "bg-rose-500/20 text-rose-300 border-rose-500/30 hover:bg-rose-500/30"
+                    }`}
+                  >
+                    {job.isClosed ? "🟢 Re-open Job" : "🔴 Mark Closed"}
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+
               <div className="flex items-start space-x-4">
                 {job.companyLogo ? (
                   <img
@@ -431,7 +509,19 @@ export default function JobDetails({ job, similarJobs }) {
             </div>
           )}
         </div>
+
+        {editingJob && (
+          <EditJobModal
+            job={editingJob}
+            onClose={() => setEditingJob(null)}
+            onSaveSuccess={(updatedJob) => {
+              setJob(updatedJob);
+              setEditingJob(null);
+            }}
+          />
+        )}
       </div>
     </>
   );
 }
+
