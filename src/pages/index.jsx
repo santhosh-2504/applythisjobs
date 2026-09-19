@@ -68,15 +68,19 @@ export default function Home({
   const [editingJob, setEditingJob] = useState(null);
 
   useEffect(() => {
-    setJobs(initialJobs);
-    setTotalJobs(initialTotalJobs);
-    setTotalPages(initialTotalPages);
+    setTimeout(() => {
+      setJobs(initialJobs);
+      setTotalJobs(initialTotalJobs);
+      setTotalPages(initialTotalPages);
+    }, 0);
   }, [initialJobs, initialTotalJobs, initialTotalPages]);
 
   useEffect(() => {
     const adminSecret = localStorage.getItem('admin_secret');
     if (adminSecret) {
-      setIsAdminActive(true);
+      setTimeout(() => {
+        setIsAdminActive(true);
+      }, 0);
     }
   }, []);
 
@@ -110,7 +114,8 @@ export default function Home({
       }
     };
     fetchAdminJobs();
-  }, [showClosed]);
+  }, [showClosed, isAdminActive, searchInput, selectedCity, selectedNiche, currentPage]);
+
 
   const handleToggleClosed = async (jobId, currentClosed) => {
     const secret = localStorage.getItem('admin_secret');

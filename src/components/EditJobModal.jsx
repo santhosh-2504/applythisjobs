@@ -33,33 +33,36 @@ export default function EditJobModal({ job, onClose, onSaveSuccess }) {
 
   useEffect(() => {
     if (job) {
-      setFormData({
-        title: job.title || "",
-        companyName: job.companyName || "",
-        companyLogo: job.companyLogo || "",
-        shortDescription: job.shortDescription || "",
-        lengthyDescription: job.lengthyDescription || "",
-        skills: Array.isArray(job.skills) ? job.skills.join(", ") : job.skills || "",
-        location: Array.isArray(job.location) ? job.location.join(", ") : job.location || "",
-        jobType: job.jobType || "Full-time",
-        salary: job.salary || "",
-        niche: job.niche || "Software Engineering",
-        applyLink: job.applyLink || "",
-        companyDescription: job.companyDescription || "",
-        industry: job.industry || "Technology",
-        experienceLevel: job.experienceLevel || "Mid",
-        benefits: Array.isArray(job.benefits) ? job.benefits.join(", ") : job.benefits || "",
-        remoteOption: Boolean(job.remoteOption),
-        companyWebsite: job.companyWebsite || "",
-        featuredJob: Boolean(job.featuredJob),
-        expiryDate: job.expiryDate ? new Date(job.expiryDate).toISOString().split("T")[0] : "",
-        isClosed: Boolean(job.isClosed),
-        keywords: Array.isArray(job.keywords) ? job.keywords.join(", ") : job.keywords || "",
-        recruiterEmail: job.recruiterContact?.email || "",
-        recruiterPhone: job.recruiterContact?.phone || ""
-      });
+      setTimeout(() => {
+        setFormData({
+          title: job.title || "",
+          companyName: job.companyName || "",
+          companyLogo: job.companyLogo || "",
+          shortDescription: job.shortDescription || "",
+          lengthyDescription: job.lengthyDescription || "",
+          skills: Array.isArray(job.skills) ? job.skills.join(", ") : job.skills || "",
+          location: Array.isArray(job.location) ? job.location.join(", ") : job.location || "",
+          jobType: job.jobType || "Full-time",
+          salary: job.salary || "",
+          niche: job.niche || "Software Engineering",
+          applyLink: job.applyLink || "",
+          companyDescription: job.companyDescription || "",
+          industry: job.industry || "Technology",
+          experienceLevel: job.experienceLevel || "Mid",
+          benefits: Array.isArray(job.benefits) ? job.benefits.join(", ") : job.benefits || "",
+          remoteOption: Boolean(job.remoteOption),
+          companyWebsite: job.companyWebsite || "",
+          featuredJob: Boolean(job.featuredJob),
+          expiryDate: job.expiryDate ? new Date(job.expiryDate).toISOString().split("T")[0] : "",
+          isClosed: Boolean(job.isClosed),
+          keywords: Array.isArray(job.keywords) ? job.keywords.join(", ") : job.keywords || "",
+          recruiterEmail: job.recruiterContact?.email || "",
+          recruiterPhone: job.recruiterContact?.phone || ""
+        });
+      }, 0);
     }
   }, [job]);
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

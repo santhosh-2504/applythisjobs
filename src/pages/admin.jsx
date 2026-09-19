@@ -52,15 +52,6 @@ export default function AdminPage() {
   const [submitError, setSubmitError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
-  // Check saved admin secret on mount
-  useEffect(() => {
-    const savedSecret = localStorage.getItem("admin_secret");
-    if (savedSecret) {
-      setAdminSecret(savedSecret);
-      verifySecret(savedSecret);
-    }
-  }, []);
-
   const verifySecret = async (secretToVerify) => {
     setAuthLoading(true);
     setAuthError(null);
@@ -87,6 +78,18 @@ export default function AdminPage() {
       setAuthLoading(false);
     }
   };
+
+  // Check saved admin secret on mount
+  useEffect(() => {
+    const savedSecret = localStorage.getItem("admin_secret");
+    if (savedSecret) {
+      setTimeout(() => {
+        setAdminSecret(savedSecret);
+        verifySecret(savedSecret);
+      }, 0);
+    }
+  }, []);
+
 
   const handleAuthSubmit = (e) => {
     e.preventDefault();

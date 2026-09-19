@@ -54,15 +54,20 @@ export default function JobDetails({ job: initialJob, similarJobs }) {
   const [editingJob, setEditingJob] = useState(null);
 
   useEffect(() => {
-    setJob(initialJob);
+    setTimeout(() => {
+      setJob(initialJob);
+    }, 0);
   }, [initialJob]);
 
   useEffect(() => {
     const secret = localStorage.getItem('admin_secret');
     if (secret) {
-      setIsAdminActive(true);
+      setTimeout(() => {
+        setIsAdminActive(true);
+      }, 0);
     }
   }, []);
+
 
   const handleLockAdmin = () => {
     localStorage.removeItem('admin_secret');
