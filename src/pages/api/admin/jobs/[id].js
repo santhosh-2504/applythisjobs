@@ -2,12 +2,13 @@ import dbConnect from "@/lib/dbConnect";
 import { Job } from "@/lib/models/Job";
 
 export default async function handler(req, res) {
-  const adminSecret = process.env.ADMIN_SECRET_KEY || "applythisadmin2026";
+  const adminSecret = process.env.ADMIN_SECRET_KEY;
   const clientSecret = req.headers["x-admin-secret"];
 
-  if (!clientSecret || clientSecret !== adminSecret) {
-    return res.status(401).json({ success: false, message: "Unauthorized: Invalid admin secret key" });
+  if (!adminSecret || !clientSecret || clientSecret !== adminSecret) {
+    return res.status(401).json({ success: false, message: "Unauthorized: Invalid or unconfigured admin secret key" });
   }
+
 
   const { id } = req.query;
 
