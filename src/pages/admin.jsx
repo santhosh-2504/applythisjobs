@@ -15,20 +15,20 @@ export default function AdminPage() {
   const [jobs, setJobs] = useState([]);
   const [loadingJobs, setLoadingJobs] = useState(false);
   const [activeTab, setActiveTab] = useState("form"); // "form" | "json" | "manage"
+  const [formSubTab, setFormSubTab] = useState("basic"); // "basic" | "descriptions" | "extra"
   const [adminSearch, setAdminSearch] = useState("");
 
   const [editingJob, setEditingJob] = useState(null);
 
-
-  // Form State
+  // Form State for NEW Job
   const [formData, setFormData] = useState({
     title: "",
     companyName: "",
     companyLogo: "https://images.unsplash.com/photo-1549923746-c502d488b3ea?w=150&h=150&fit=crop",
     shortDescription: "",
     lengthyDescription: "",
-    skills: "React, Node.js",
-    location: "Remote",
+    skills: "React, Node.js, Next.js",
+    location: "Remote, Bangalore",
     jobType: "Full-time",
     salary: "$100,000 - $130,000/year",
     niche: "Software Engineering",
@@ -42,7 +42,9 @@ export default function AdminPage() {
     featuredJob: false,
     expiryDate: "",
     isClosed: false,
-    keywords: "developer, remote, software engineering"
+    keywords: "developer, remote, software engineering",
+    recruiterEmail: "",
+    recruiterPhone: ""
   });
 
   // JSON Raw State
@@ -89,7 +91,6 @@ export default function AdminPage() {
       }, 0);
     }
   }, []);
-
 
   const handleAuthSubmit = (e) => {
     e.preventDefault();
@@ -158,7 +159,11 @@ export default function AdminPage() {
         featuredJob: formData.featuredJob,
         expiryDate: formData.expiryDate ? formData.expiryDate : null,
         isClosed: formData.isClosed,
-        keywords: formData.keywords.split(",").map((k) => k.trim()).filter(Boolean)
+        keywords: formData.keywords.split(",").map((k) => k.trim()).filter(Boolean),
+        recruiterContact: {
+          email: formData.recruiterEmail,
+          phone: formData.recruiterPhone
+        }
       };
     } else if (activeTab === "json") {
       try {
@@ -349,139 +354,348 @@ export default function AdminPage() {
             {activeTab === "form" && (
               <form onSubmit={handleCreateJob} className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
                 <div className="border-b border-slate-800 pb-3 flex items-center justify-between">
-                  <h2 className="text-lg font-bold text-white">Add New Job Listing</h2>
-                  <span className="text-xs text-slate-400">Fill in details and click Publish</span>
+                  <div>
+                    <h2 className="text-lg font-bold text-white">Add New Job Listing (All 22 Fields)</h2>
+                    <p className="text-xs text-slate-400">Fill out any or all fields below to create a new job posting.</p>
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Job Title *</label>
-                    <input
-                      type="text"
-                      name="title"
-                      value={formData.title}
-                      onChange={handleFormChange}
-                      required
-                      placeholder="e.g. Senior Frontend Engineer"
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Company Name *</label>
-                    <input
-                      type="text"
-                      name="companyName"
-                      value={formData.companyName}
-                      onChange={handleFormChange}
-                      required
-                      placeholder="e.g. TechCorp Inc."
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Apply Link (URL) *</label>
-                    <input
-                      type="url"
-                      name="applyLink"
-                      value={formData.applyLink}
-                      onChange={handleFormChange}
-                      required
-                      placeholder="https://..."
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Company Logo (URL) *</label>
-                    <input
-                      type="url"
-                      name="companyLogo"
-                      value={formData.companyLogo}
-                      onChange={handleFormChange}
-                      required
-                      placeholder="https://..."
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Salary *</label>
-                    <input
-                      type="text"
-                      name="salary"
-                      value={formData.salary}
-                      onChange={handleFormChange}
-                      required
-                      placeholder="e.g. $120,000 - $150,000/yr"
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Job Niche *</label>
-                    <input
-                      type="text"
-                      name="niche"
-                      value={formData.niche}
-                      onChange={handleFormChange}
-                      required
-                      placeholder="e.g. Software Engineering"
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Location (comma-separated)</label>
-                    <input
-                      type="text"
-                      name="location"
-                      value={formData.location}
-                      onChange={handleFormChange}
-                      placeholder="Remote, San Francisco, CA"
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Skills (comma-separated)</label>
-                    <input
-                      type="text"
-                      name="skills"
-                      value={formData.skills}
-                      onChange={handleFormChange}
-                      placeholder="React, Next.js, TypeScript"
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-sm"
-                    />
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Short Description *</label>
-                    <textarea
-                      name="shortDescription"
-                      value={formData.shortDescription}
-                      onChange={handleFormChange}
-                      rows={2}
-                      required
-                      placeholder="Brief overview of the role..."
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-sm"
-                    />
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Lengthy Description (Full Details) *</label>
-                    <textarea
-                      name="lengthyDescription"
-                      value={formData.lengthyDescription}
-                      onChange={handleFormChange}
-                      rows={6}
-                      required
-                      placeholder="Full job responsibilities and requirements..."
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-sm font-mono"
-                    />
-                  </div>
+                {/* Sub-tab Navigation */}
+                <div className="flex border-b border-slate-800 bg-slate-900/50 px-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setFormSubTab("basic")}
+                    className={`px-4 py-2 text-xs font-medium border-b-2 transition ${
+                      formSubTab === "basic"
+                        ? "border-purple-500 text-purple-400 font-semibold"
+                        : "border-transparent text-slate-400 hover:text-slate-200"
+                    }`}
+                  >
+                    📋 Basic Info & Links
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormSubTab("descriptions")}
+                    className={`px-4 py-2 text-xs font-medium border-b-2 transition ${
+                      formSubTab === "descriptions"
+                        ? "border-purple-500 text-purple-400 font-semibold"
+                        : "border-transparent text-slate-400 hover:text-slate-200"
+                    }`}
+                  >
+                    📝 Job Descriptions
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormSubTab("extra")}
+                    className={`px-4 py-2 text-xs font-medium border-b-2 transition ${
+                      formSubTab === "extra"
+                        ? "border-purple-500 text-purple-400 font-semibold"
+                        : "border-transparent text-slate-400 hover:text-slate-200"
+                    }`}
+                  >
+                    ⚙️ Extra Details & Status
+                  </button>
                 </div>
+
+                {formSubTab === "basic" && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Job Title *</label>
+                      <input
+                        type="text"
+                        name="title"
+                        value={formData.title}
+                        onChange={handleFormChange}
+                        required
+                        placeholder="e.g. Senior Frontend Engineer"
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Company Name *</label>
+                      <input
+                        type="text"
+                        name="companyName"
+                        value={formData.companyName}
+                        onChange={handleFormChange}
+                        required
+                        placeholder="e.g. TechCorp Inc."
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Apply Link (URL) *</label>
+                      <input
+                        type="url"
+                        name="applyLink"
+                        value={formData.applyLink}
+                        onChange={handleFormChange}
+                        required
+                        placeholder="https://..."
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Company Logo (URL) *</label>
+                      <input
+                        type="url"
+                        name="companyLogo"
+                        value={formData.companyLogo}
+                        onChange={handleFormChange}
+                        required
+                        placeholder="https://..."
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Salary Range *</label>
+                      <input
+                        type="text"
+                        name="salary"
+                        value={formData.salary}
+                        onChange={handleFormChange}
+                        required
+                        placeholder="e.g. $120,000 - $150,000/yr"
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Job Niche *</label>
+                      <input
+                        type="text"
+                        name="niche"
+                        value={formData.niche}
+                        onChange={handleFormChange}
+                        required
+                        placeholder="e.g. Software Engineering"
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Job Type *</label>
+                      <select
+                        name="jobType"
+                        value={formData.jobType}
+                        onChange={handleFormChange}
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      >
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Internship">Internship</option>
+                        <option value="Freelance">Freelance</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Experience Level *</label>
+                      <select
+                        name="experienceLevel"
+                        value={formData.experienceLevel}
+                        onChange={handleFormChange}
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      >
+                        <option value="Entry">Entry</option>
+                        <option value="Mid">Mid</option>
+                        <option value="Senior">Senior</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Location (comma-separated)</label>
+                      <input
+                        type="text"
+                        name="location"
+                        value={formData.location}
+                        onChange={handleFormChange}
+                        placeholder="Remote, San Francisco, CA"
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Skills (comma-separated)</label>
+                      <input
+                        type="text"
+                        name="skills"
+                        value={formData.skills}
+                        onChange={handleFormChange}
+                        placeholder="React, Next.js, TypeScript"
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {formSubTab === "descriptions" && (
+                  <div className="space-y-4 text-xs">
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Short Description *</label>
+                      <textarea
+                        name="shortDescription"
+                        value={formData.shortDescription}
+                        onChange={handleFormChange}
+                        rows={2}
+                        required
+                        placeholder="Brief overview of the role..."
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Lengthy Description (Full Details) *</label>
+                      <textarea
+                        name="lengthyDescription"
+                        value={formData.lengthyDescription}
+                        onChange={handleFormChange}
+                        rows={6}
+                        required
+                        placeholder="Full job responsibilities and requirements..."
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs font-mono"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Company Description</label>
+                      <textarea
+                        name="companyDescription"
+                        value={formData.companyDescription}
+                        onChange={handleFormChange}
+                        rows={3}
+                        placeholder="Overview of company mission, culture, etc."
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {formSubTab === "extra" && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Industry</label>
+                      <input
+                        type="text"
+                        name="industry"
+                        value={formData.industry}
+                        onChange={handleFormChange}
+                        placeholder="e.g. Technology, Healthcare"
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Company Website (URL)</label>
+                      <input
+                        type="url"
+                        name="companyWebsite"
+                        value={formData.companyWebsite}
+                        onChange={handleFormChange}
+                        placeholder="https://company.com"
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Benefits (comma-separated)</label>
+                      <input
+                        type="text"
+                        name="benefits"
+                        value={formData.benefits}
+                        onChange={handleFormChange}
+                        placeholder="Health Insurance, 401k, PTO"
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Keywords (comma-separated)</label>
+                      <input
+                        type="text"
+                        name="keywords"
+                        value={formData.keywords}
+                        onChange={handleFormChange}
+                        placeholder="frontend, react, remote"
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Expiry Date</label>
+                      <input
+                        type="date"
+                        name="expiryDate"
+                        value={formData.expiryDate}
+                        onChange={handleFormChange}
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Recruiter Email</label>
+                      <input
+                        type="email"
+                        name="recruiterEmail"
+                        value={formData.recruiterEmail}
+                        onChange={handleFormChange}
+                        placeholder="recruiter@company.com"
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-slate-300 mb-1">Recruiter Phone</label>
+                      <input
+                        type="tel"
+                        name="recruiterPhone"
+                        value={formData.recruiterPhone}
+                        onChange={handleFormChange}
+                        placeholder="+1 555-0199"
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-purple-500 text-xs"
+                      />
+                    </div>
+
+                    <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="remoteOption"
+                          checked={formData.remoteOption}
+                          onChange={handleFormChange}
+                          className="w-4 h-4 rounded text-purple-600 focus:ring-purple-500 bg-slate-900 border-slate-700"
+                        />
+                        <span className="text-xs font-medium text-slate-200">🌐 Remote Allowed</span>
+                      </label>
+
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="featuredJob"
+                          checked={formData.featuredJob}
+                          onChange={handleFormChange}
+                          className="w-4 h-4 rounded text-purple-600 focus:ring-purple-500 bg-slate-900 border-slate-700"
+                        />
+                        <span className="text-xs font-medium text-amber-300">⭐ Featured Job</span>
+                      </label>
+
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="isClosed"
+                          checked={formData.isClosed}
+                          onChange={handleFormChange}
+                          className="w-4 h-4 rounded text-rose-600 focus:ring-rose-500 bg-slate-900 border-slate-700"
+                        />
+                        <span className="text-xs font-medium text-rose-300">🔴 Start as Closed</span>
+                      </label>
+                    </div>
+                  </div>
+                )}
 
                 <div className="pt-4 border-t border-slate-800 flex justify-end">
                   <button
@@ -601,7 +815,6 @@ export default function AdminPage() {
                           })
                           .map((j) => (
                           <tr key={j._id} className="hover:bg-slate-800/40 transition">
-
                             <td className="px-4 py-3 font-medium text-white">
                               <div className="flex items-center gap-3">
                                 <img
