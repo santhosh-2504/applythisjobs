@@ -274,25 +274,26 @@ export default function Home({
   return (
     <>
       <Head>
-        <title>ApplyThisJobs | Find Software, Cloud & Engineering Jobs</title>
+        <title>FresherApply | Find Fresher, Software & Engineering Jobs</title>
         <meta
           name="description"
-          content={`Browse ${totalJobs} open software, cloud engineering, AI, and data science job listings. Apply directly to leading employers.`}
+          content={`Browse ${totalJobs} open software, cloud engineering, AI, and fresher job listings. Apply directly to leading tech employers.`}
         />
         <link rel="canonical" href={siteUrl} />
         {/* Open Graph Meta Tags */}
-        <meta property="og:title" content="ApplyThisJobs | Find Software, Cloud & Engineering Jobs" />
-        <meta property="og:description" content="Browse open software, cloud engineering, AI, and data science job listings. Apply directly to leading tech employers." />
+        <meta property="og:title" content="FresherApply | Find Fresher, Software & Engineering Jobs" />
+        <meta property="og:description" content="Browse open software, cloud engineering, AI, and fresher job listings. Apply directly to leading tech employers." />
         <meta property="og:url" content={siteUrl} />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="ApplyThisJobs" />
+        <meta property="og:site_name" content="FresherApply" />
         <meta property="og:image" content={`${siteUrl}/favicon.ico`} />
-        <meta property="og:image:alt" content="ApplyThisJobs Logo" />
+        <meta property="og:image:alt" content="FresherApply Logo" />
 
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="ApplyThisJobs | Find Software, Cloud & Engineering Jobs" />
-        <meta name="twitter:description" content="Browse open software, cloud engineering, AI, and data science job listings. Apply directly to leading tech employers." />
+        <meta name="twitter:title" content="FresherApply | Find Fresher, Software & Engineering Jobs" />
+        <meta name="twitter:description" content="Browse open software, cloud engineering, AI, and fresher job listings. Apply directly to leading tech employers." />
+
 
         <script
           type="application/ld+json"

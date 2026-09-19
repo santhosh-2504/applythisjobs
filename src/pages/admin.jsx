@@ -233,16 +233,17 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans">
       <Head>
-        <title>Admin Portal | ApplyThisJobs</title>
+        <title>Admin Portal | FresherApply</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
 
       {/* Top Navbar */}
       <header className="border-b border-slate-800 bg-slate-900/80 px-6 py-4 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
-          <span>ApplyThis<span className="text-purple-400">Jobs</span></span>
+          <span>Fresher<span className="text-purple-400">Apply</span></span>
           <span className="bg-purple-900/60 text-purple-300 text-xs px-2 py-0.5 rounded border border-purple-700/50">Admin</span>
         </Link>
+
 
         {isAuthenticated && (
           <div className="flex items-center gap-3 text-xs">

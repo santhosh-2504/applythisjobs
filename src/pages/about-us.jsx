@@ -5,39 +5,39 @@ export default function AboutUs() {
 
   const sections = [
     {
-      title: "Welcome to Apply This Jobs!",
-      content: "At Apply This Jobs, we believe in empowering job seekers by providing them with the right tools and resources to achieve their career aspirations. Our platform is designed to bridge the gap between opportunity and preparation, ensuring that you have everything you need to thrive in your professional journey."
+      title: "Welcome to FresherApply!",
+      content: "At FresherApply (www.fresherapply.com), we believe in empowering fresh graduates, entry-level candidates, and job seekers by providing them with the right tools and resources to achieve their career aspirations. Our platform is designed to bridge the gap between opportunity and preparation, ensuring that you have everything you need to thrive in your professional journey."
     },
     {
       title: "What We Do",
       content: `Job Opportunities:
-• We curate job openings from various industries, providing direct links to applications.
-• Our goal is to simplify your job search process and connect you to opportunities that match your skills and interests.`
+• We curate job openings from various tech industries, engineering fields, and corporate roles, providing direct links to applications.
+• Our goal is to simplify your job search process and connect freshers and experienced candidates to opportunities that match their skills and interests.`
     },
     {
       title: "Our Mission",
-      content: "We aim to be the one-stop solution for individuals seeking professional growth. Whether you're looking for your dream job or charting your career path, Apply This Jobs is here to guide you every step of the way."
+      content: "We aim to be the premier one-stop portal for freshers and tech professionals seeking career growth. Whether you're looking for your first job or advancing your career path, FresherApply is here to guide you every step of the way."
     },
     {
       title: "Why Choose Us?",
-      content: `• Curated Content: We handpick job postings to ensure quality and relevance
+      content: `• Curated Freshers & Tech Jobs: We handpick job postings to ensure quality and relevance for early-career professionals
 • Ease of Use: Our intuitive platform makes navigation and interaction seamless
 • No Account Required: Job browsing and searching are fully accessible without registration
 • Committed to Your Privacy: Your data security is our priority`
     },
     {
       title: "Join Us on This Journey",
-      content: "At Apply This Jobs, we are not just a platform; we are a community dedicated to your success. Explore our features, take advantage of our resources, and let us be your partner in professional growth.\n\nLet's shape your future, one opportunity at a time."
+      content: "At FresherApply, we are not just a platform; we are a community dedicated to your success. Explore our features, take advantage of our resources, and let us be your partner in professional growth.\n\nLet's shape your future, one opportunity at a time."
     }
   ];
 
   return (
     <>
       <Head>
-        <title>About Us | ApplyThisJobs</title>
+        <title>About Us | FresherApply</title>
         <meta
           name="description"
-          content="Learn about ApplyThisJobs.com, our mission to simplify job discovery, and how we connect job seekers directly to employers."
+          content="Learn about FresherApply.com, our mission to simplify job discovery for freshers and developers, and how we connect job seekers directly to top employers."
         />
         <link rel="canonical" href={`${siteUrl}/about-us`} />
       </Head>
@@ -69,4 +69,3 @@ export default function AboutUs() {
     </>
   );
 }
-

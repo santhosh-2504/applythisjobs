@@ -5,7 +5,7 @@ export default function CookieConsent() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const consent = localStorage.getItem('applythisjobs_cookie_consent');
+    const consent = localStorage.getItem('fresherapply_cookie_consent');
     if (!consent) {
       const timer = setTimeout(() => setShow(true), 0);
       return () => clearTimeout(timer);
@@ -13,12 +13,12 @@ export default function CookieConsent() {
   }, []);
 
   const accept = () => {
-    localStorage.setItem('applythisjobs_cookie_consent', 'true');
+    localStorage.setItem('fresherapply_cookie_consent', 'true');
     setShow(false);
   };
 
   const decline = () => {
-    localStorage.setItem('applythisjobs_cookie_consent', 'false');
+    localStorage.setItem('fresherapply_cookie_consent', 'false');
     setShow(false);
   };
 

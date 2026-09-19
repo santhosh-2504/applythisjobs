@@ -7,12 +7,12 @@ export default function TermsOfService() {
   const sections = [
     {
       title: "Introduction",
-      content: "Welcome to www.applythisjobs.com. By accessing or using our platform, you agree to comply with and be bound by these Terms and Conditions. Please read them carefully. If you do not agree, please refrain from using the platform. Our service is supported by advertising through Google AdSense."
+      content: "Welcome to www.fresherapply.com. By accessing or using our platform, you agree to comply with and be bound by these Terms and Conditions. Please read them carefully. If you do not agree, please refrain from using the platform. Our service is supported by advertising through Google AdSense."
     },
     {
       title: "Services Provided",
-      content: `www.applythisjobs.com is a job portal offering:
-1. Links to job applications
+      content: `www.fresherapply.com is a job portal offering:
+1. Links to job applications and fresher career listings
 2. Targeted advertising content through Google AdSense
 
 Users can browse, search, and apply for jobs without creating an account.`
@@ -38,11 +38,11 @@ For more information about ad personalization, visit Google's Ad Settings page a
     },
     {
       title: "Eligibility",
-      content: "To use our services, you must be at least 16 years old. By using www.applythisjobs.com, you confirm that you meet this age requirement."
+      content: "To use our services, you must be at least 16 years old. By using www.fresherapply.com, you confirm that you meet this age requirement."
     },
     {
       title: "Intellectual Property",
-      content: `All content on www.applythisjobs.com, including text, graphics, and logos, is either:
+      content: `All content on www.fresherapply.com, including text, graphics, and logos, is either:
 • Original content created by our team
 • Licensed content used with permission
 • Public domain content appropriately attributed
@@ -66,7 +66,7 @@ Any unauthorized use of our content may result in legal action.`
     },
     {
       title: "User Responsibilities",
-      content: `By using www.applythisjobs.com, you agree to:
+      content: `By using www.fresherapply.com, you agree to:
 1. Provide accurate information when contacting or interacting with the platform
 2. Use the platform only for lawful purposes
 3. Avoid engaging in fraudulent, malicious, or harmful activities
@@ -82,7 +82,7 @@ You must not disrupt the platform's functionality or compromise the experience o
       title: "Privacy",
       content: (
         <span>
-          By using www.applythisjobs.com, you agree to the collection and use of your personal information as described in our{' '}
+          By using www.fresherapply.com, you agree to the collection and use of your personal information as described in our{' '}
           <Link href="/privacy-policy" className="text-blue-600 hover:underline dark:text-blue-400 font-semibold">
             Privacy Policy
           </Link>
@@ -92,7 +92,7 @@ You must not disrupt the platform's functionality or compromise the experience o
     },
     {
       title: "Disclaimer and Limitation of Liability",
-      content: "While www.applythisjobs.com strives to provide accurate and helpful information, we are not responsible for any damages, losses, or issues that may arise from using our platform, including external job links or advertisements. We do not endorse specific products or services advertised through Google AdSense. Users should verify information independently and use all resources at their own risk."
+      content: "While www.fresherapply.com strives to provide accurate and helpful information, we are not responsible for any damages, losses, or issues that may arise from using our platform, including external job links or advertisements. We do not endorse specific products or services advertised through Google AdSense. Users should verify information independently and use all resources at their own risk."
     },
     {
       title: "Content and Quality Standards",
@@ -112,17 +112,17 @@ You must not disrupt the platform's functionality or compromise the experience o
     },
     {
       title: "Amendments to Terms",
-      content: "www.applythisjobs.com reserves the right to update or modify these Terms and Conditions at any time. Any changes will be posted on this page, and the updated Terms will take effect immediately upon posting. Users are encouraged to review the Terms periodically to stay informed of any changes."
+      content: "www.fresherapply.com reserves the right to update or modify these Terms and Conditions at any time. Any changes will be posted on this page, and the updated Terms will take effect immediately upon posting. Users are encouraged to review the Terms periodically to stay informed of any changes."
     }
   ];
 
   return (
     <>
       <Head>
-        <title>Terms and Conditions | ApplyThisJobs</title>
+        <title>Terms and Conditions | FresherApply</title>
         <meta
           name="description"
-          content="Terms and Conditions for www.applythisjobs.com outlining service terms, Google AdSense disclosures, and user responsibilities."
+          content="Terms and Conditions for www.fresherapply.com outlining service terms, Google AdSense disclosures, and user responsibilities."
         />
         <link rel="canonical" href={`${siteUrl}/terms`} />
       </Head>
@@ -153,9 +153,9 @@ You must not disrupt the platform's functionality or compromise the experience o
               </div>
 
               <div className="mt-8 text-gray-600 dark:text-gray-300 text-center border-t border-gray-200 dark:border-gray-700 pt-6">
-                Thank you for using www.applythisjobs.com. If you have any questions or concerns, feel free to contact us at{' '}
-                <a href="mailto:applythisjobs@gmail.com" className="text-blue-600 dark:text-blue-400 font-semibold underline">
-                  applythisjobs@gmail.com
+                Thank you for using www.fresherapply.com. If you have any questions or concerns, feel free to contact us at{' '}
+                <a href="mailto:fresherapply@gmail.com" className="text-blue-600 dark:text-blue-400 font-semibold underline">
+                  fresherapply@gmail.com
                 </a>.
               </div>
             </div>
@@ -165,4 +165,3 @@ You must not disrupt the platform's functionality or compromise the experience o
     </>
   );
 }
-

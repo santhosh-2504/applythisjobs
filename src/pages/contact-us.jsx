@@ -20,7 +20,7 @@ export default function ContactUs() {
       title: "External Content Owners",
       content: `If you are an external content owner and have queries or objections regarding job postings shared on our platform, please email us at:
 
-applythisjobs@gmail.com`
+fresherapply@gmail.com`
     },
     {
       title: "Response Time",
@@ -31,10 +31,10 @@ applythisjobs@gmail.com`
   return (
     <>
       <Head>
-        <title>Contact Us | ApplyThisJobs</title>
+        <title>Contact Us | FresherApply</title>
         <meta
           name="description"
-          content="Contact ApplyThisJobs for support, recruiter inquiries, feedback, or content ownership questions."
+          content="Contact FresherApply for support, recruiter inquiries, feedback, or content ownership questions."
         />
         <link rel="canonical" href={`${siteUrl}/contact-us`} />
       </Head>
@@ -66,4 +66,3 @@ applythisjobs@gmail.com`
     </>
   );
 }
-

@@ -6,8 +6,8 @@ export default function PrivacyPolicy() {
 
   const sections = [
     {
-      title: "Welcome to Apply This Jobs",
-      content: "Your privacy is of utmost importance to us. This Privacy Policy outlines how we collect, use, store, and protect your personal data when you use our website. By accessing or using our services, you agree to this Privacy Policy. We are committed to transparency and protecting your privacy rights while providing our services supported by advertising."
+      title: "Welcome to FresherApply",
+      content: "Your privacy is of utmost importance to us. This Privacy Policy outlines how we collect, use, store, and protect your personal data when you use our website at www.fresherapply.com. By accessing or using our services, you agree to this Privacy Policy. We are committed to transparency and protecting your privacy rights while providing our services supported by advertising."
     },
     {
       title: "Eligibility",
@@ -69,7 +69,7 @@ Advertising:
 • Ensure compliance with advertising policies
 
 Communication:
-• Support inquiries via applythisjobs@gmail.com
+• Support inquiries via fresherapply@gmail.com
 • Important updates about our service`
     },
     {
@@ -119,13 +119,13 @@ Data Processing:
     {
       title: "Contact Information",
       content: `For privacy-related inquiries:
-• Email us at applythisjobs@gmail.com
+• Email us at fresherapply@gmail.com
 • Response within 48 business hours
 • Official support channels listed in footer
 
 For urgent concerns:
 • Priority response for data-related issues
-• Direct support via applythisjobs@gmail.com
+• Direct support via fresherapply@gmail.com
 
 For advertising-related inquiries:
 • Visit Google Ad Settings for personalization controls
@@ -137,10 +137,10 @@ For advertising-related inquiries:
   return (
     <>
       <Head>
-        <title>Privacy Policy | ApplyThisJobs</title>
+        <title>Privacy Policy | FresherApply</title>
         <meta
           name="description"
-          content="Privacy Policy for www.applythisjobs.com including Google AdSense third-party cookie policies and user data rights."
+          content="Privacy Policy for www.fresherapply.com including Google AdSense third-party cookie policies and user data rights."
         />
         <link rel="canonical" href={`${siteUrl}/privacy-policy`} />
       </Head>
@@ -176,4 +176,3 @@ For advertising-related inquiries:
     </>
   );
 }
-

@@ -10,8 +10,8 @@ export default function Header() {
           <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
             <FaBriefcase className="text-lg" />
           </div>
-          <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            ApplyThisJobs
+          <span className="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+            Fresher<span className="text-blue-600 dark:text-blue-400">Apply</span>
           </span>
         </Link>
 

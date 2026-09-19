@@ -13,10 +13,10 @@ export default function Footer() {
             <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white">
               <FaBriefcase className="text-sm" />
             </div>
-            <span className="text-lg font-bold text-white">ApplyThisJobs</span>
+            <span className="text-lg font-bold text-white">Fresher<span className="text-blue-400">Apply</span></span>
           </Link>
           <p className="text-xs text-gray-400 leading-relaxed">
-            Discover handpicked career opportunities, tech job openings, and direct recruiter contact links.
+            Discover handpicked fresher opportunities, tech job openings, and direct recruiter contact links.
           </p>
         </div>
 
@@ -66,8 +66,8 @@ export default function Footer() {
           <ul className="space-y-2 text-sm text-gray-400">
             <li className="flex items-center space-x-2">
               <FaEnvelope className="text-blue-500" />
-              <a href="mailto:applythisjobs@gmail.com" className="hover:text-blue-400 transition-colors">
-                applythisjobs@gmail.com
+              <a href="mailto:fresherapply@gmail.com" className="hover:text-blue-400 transition-colors">
+                fresherapply@gmail.com
               </a>
             </li>
             <li className="flex items-center space-x-2">
@@ -79,7 +79,7 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 border-t border-gray-800 text-center text-xs text-gray-500">
-        &copy; {currentYear} ApplyThisJobs.com. All rights reserved.
+        &copy; {currentYear} FresherApply.com. All rights reserved.
       </div>
     </footer>
   );
