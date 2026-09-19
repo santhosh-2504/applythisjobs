@@ -286,13 +286,16 @@ export default function Home({
         <meta property="og:url" content={siteUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="FresherApply" />
-        <meta property="og:image" content={`${siteUrl}/favicon.ico`} />
+        <meta property="og:image" content={`${siteUrl}/favicon_logo.jpg`} />
         <meta property="og:image:alt" content="FresherApply Logo" />
 
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="FresherApply | Find Fresher, Software & Engineering Jobs" />
         <meta name="twitter:description" content="Browse open software, cloud engineering, AI, and fresher job listings. Apply directly to leading tech employers." />
+        <meta name="twitter:image" content={`${siteUrl}/favicon_logo.jpg`} />
+
+
 
 
         <script
