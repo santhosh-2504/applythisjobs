@@ -154,8 +154,8 @@ You must not disrupt the platform's functionality or compromise the experience o
 
               <div className="mt-8 text-gray-600 dark:text-gray-300 text-center border-t border-gray-200 dark:border-gray-700 pt-6">
                 Thank you for using www.fresherapply.com. If you have any questions or concerns, feel free to contact us at{' '}
-                <a href="mailto:fresherapply@gmail.com" className="text-blue-600 dark:text-blue-400 font-semibold underline">
-                  fresherapply@gmail.com
+                <a href="mailto:fresherapplyofficial@gmail.com" className="text-blue-600 dark:text-blue-400 font-semibold underline">
+                  fresherapplyofficial@gmail.com
                 </a>.
               </div>
             </div>

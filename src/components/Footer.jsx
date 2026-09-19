@@ -66,8 +66,8 @@ export default function Footer() {
           <ul className="space-y-2 text-sm text-gray-400">
             <li className="flex items-center space-x-2">
               <FaEnvelope className="text-blue-500" />
-              <a href="mailto:fresherapply@gmail.com" className="hover:text-blue-400 transition-colors">
-                fresherapply@gmail.com
+              <a href="mailto:fresherapplyofficial@gmail.com" className="hover:text-blue-400 transition-colors">
+                fresherapplyofficial@gmail.com
               </a>
             </li>
             <li className="flex items-center space-x-2">

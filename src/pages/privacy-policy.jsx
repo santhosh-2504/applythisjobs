@@ -69,7 +69,7 @@ Advertising:
 • Ensure compliance with advertising policies
 
 Communication:
-• Support inquiries via fresherapply@gmail.com
+• Support inquiries via fresherapplyofficial@gmail.com
 • Important updates about our service`
     },
     {
@@ -119,13 +119,13 @@ Data Processing:
     {
       title: "Contact Information",
       content: `For privacy-related inquiries:
-• Email us at fresherapply@gmail.com
+• Email us at fresherapplyofficial@gmail.com
 • Response within 48 business hours
 • Official support channels listed in footer
 
 For urgent concerns:
 • Priority response for data-related issues
-• Direct support via fresherapply@gmail.com
+• Direct support via fresherapplyofficial@gmail.com
 
 For advertising-related inquiries:
 • Visit Google Ad Settings for personalization controls

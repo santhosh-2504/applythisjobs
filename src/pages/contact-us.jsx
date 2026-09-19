@@ -20,7 +20,7 @@ export default function ContactUs() {
       title: "External Content Owners",
       content: `If you are an external content owner and have queries or objections regarding job postings shared on our platform, please email us at:
 
-fresherapply@gmail.com`
+fresherapplyofficial@gmail.com`
     },
     {
       title: "Response Time",
